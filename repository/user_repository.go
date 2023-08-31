@@ -3,8 +3,8 @@ package repository
 import (
 	"context"
 
-	"github.com/amitshekhariitbhu/go-backend-clean-architecture/domain"
-	"github.com/amitshekhariitbhu/go-backend-clean-architecture/mongo"
+	"github.com/connorb645/appeak-go/domain"
+	"github.com/connorb645/appeak-go/mongo"
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo/options"

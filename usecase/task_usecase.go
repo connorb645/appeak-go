@@ -4,7 +4,7 @@ import (
 	"context"
 	"time"
 
-	"github.com/amitshekhariitbhu/go-backend-clean-architecture/domain"
+	"github.com/connorb645/appeak-go/domain"
 )
 
 type taskUsecase struct {

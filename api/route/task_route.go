@@ -3,12 +3,12 @@ package route
 import (
 	"time"
 
-	"github.com/amitshekhariitbhu/go-backend-clean-architecture/api/controller"
-	"github.com/amitshekhariitbhu/go-backend-clean-architecture/bootstrap"
-	"github.com/amitshekhariitbhu/go-backend-clean-architecture/domain"
-	"github.com/amitshekhariitbhu/go-backend-clean-architecture/mongo"
-	"github.com/amitshekhariitbhu/go-backend-clean-architecture/repository"
-	"github.com/amitshekhariitbhu/go-backend-clean-architecture/usecase"
+	"github.com/connorb645/appeak-go/api/controller"
+	"github.com/connorb645/appeak-go/bootstrap"
+	"github.com/connorb645/appeak-go/domain"
+	"github.com/connorb645/appeak-go/mongo"
+	"github.com/connorb645/appeak-go/repository"
+	"github.com/connorb645/appeak-go/usecase"
 	"github.com/gin-gonic/gin"
 )
 

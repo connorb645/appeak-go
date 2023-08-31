@@ -3,9 +3,9 @@ package route
 import (
 	"time"
 
-	"github.com/amitshekhariitbhu/go-backend-clean-architecture/api/middleware"
-	"github.com/amitshekhariitbhu/go-backend-clean-architecture/bootstrap"
-	"github.com/amitshekhariitbhu/go-backend-clean-architecture/mongo"
+	"github.com/connorb645/appeak-go/api/middleware"
+	"github.com/connorb645/appeak-go/bootstrap"
+	"github.com/connorb645/appeak-go/mongo"
 	"github.com/gin-gonic/gin"
 )
 

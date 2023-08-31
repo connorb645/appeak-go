@@ -5,8 +5,8 @@ import (
 
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/amitshekhariitbhu/go-backend-clean-architecture/bootstrap"
-	"github.com/amitshekhariitbhu/go-backend-clean-architecture/domain"
+	"github.com/connorb645/appeak-go/bootstrap"
+	"github.com/connorb645/appeak-go/domain"
 	"github.com/gin-gonic/gin"
 )
 

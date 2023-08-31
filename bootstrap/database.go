@@ -6,22 +6,19 @@ import (
 	"log"
 	"time"
 
-	"github.com/amitshekhariitbhu/go-backend-clean-architecture/mongo"
+	"github.com/connorb645/appeak-go/mongo"
 )
 
 func NewMongoDatabase(env *Env) mongo.Client {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 
-	dbHost := env.DBHost
-	dbPort := env.DBPort
+	dbCluster := env.DBCluster
 	dbUser := env.DBUser
 	dbPass := env.DBPass
-
-	mongodbURI := fmt.Sprintf("mongodb://%s:%s@%s:%s", dbUser, dbPass, dbHost, dbPort)
-
+	mongodbURI := fmt.Sprintf("mongodb+srv://%s:%s@%s", dbUser, dbPass, dbCluster)
 	if dbUser == "" || dbPass == "" {
-		mongodbURI = fmt.Sprintf("mongodb://%s:%s", dbHost, dbPort)
+		mongodbURI = fmt.Sprintf("mongodb://%s", dbCluster)
 	}
 
 	client, err := mongo.NewClient(mongodbURI)
