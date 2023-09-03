@@ -21,7 +21,9 @@ func main() {
 
 	gin := gin.Default()
 
-	route.Setup(env, timeout, db, gin)
-	
+	store := app.Store
+
+	route.Setup(env, timeout, db, store, gin)
+
 	gin.Run(env.ServerAddress)
 }
