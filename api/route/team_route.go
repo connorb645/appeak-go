@@ -12,10 +12,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func NewTeamRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database, group *gin.RouterGroup) {
+func NewTeamCreationRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database, group *gin.RouterGroup) {
 	tr := repository.NewTeamRepository(db, domain.CollectionTeam)
 	tc := &controller.TeamController{
 		TeamUsecase: usecase.NewTeamUsecase(tr, timeout),
 	}
 	group.POST("/teams", tc.Create)
+}
+
+func NewTeamManagementRouter(env *bootstrap.Env, timeout time.Duration, db mongo.Database, group *gin.RouterGroup) {
+	tr := repository.NewTeamRepository(db, domain.CollectionTeam)
+	tc := &controller.TeamController{
+		TeamUsecase: usecase.NewTeamUsecase(tr, timeout),
+	}
+	group.GET("/teams/:teamID", tc.Fetch)
 }

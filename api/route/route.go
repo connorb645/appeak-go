@@ -30,5 +30,9 @@ func Setup(
 	NewProfileRouter(timeout, db, protectedRouter)
 	NewTaskRouter(timeout, db, protectedRouter)
 	NewDocumentRouter(timeout, store, protectedRouter)
-	NewTeamRouter(env, timeout, db, protectedRouter)
+	NewTeamCreationRouter(env, timeout, db, protectedRouter)
+
+	protectedTeamAdminRouter := protectedRouter.Group("")
+	protectedTeamAdminRouter.Use(middleware.TeamAdminMiddleware(db))
+	NewTeamManagementRouter(env, timeout, db, protectedTeamAdminRouter)
 }

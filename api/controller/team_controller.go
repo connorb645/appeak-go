@@ -29,6 +29,7 @@ func (tc *TeamController) Create(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
 		return
 	}
+	team.TeamMembers = []primitive.ObjectID{team.AdminID}
 
 	err = tc.TeamUsecase.Create(c, &team)
 	if err != nil {
@@ -39,4 +40,20 @@ func (tc *TeamController) Create(c *gin.Context) {
 	c.JSON(http.StatusOK, domain.SuccessResponse{
 		Message: "Team created successfully",
 	})
+}
+
+func (tc *TeamController) Fetch(c *gin.Context) {
+	teamID, err := primitive.ObjectIDFromHex(c.Param("teamID"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+
+	team, err := tc.TeamUsecase.Fetch(c, teamID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, team)
 }

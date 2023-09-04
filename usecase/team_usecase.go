@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/connorb645/appeak-go/domain"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type teamUsecase struct {
@@ -23,4 +24,10 @@ func (tu *teamUsecase) Create(c context.Context, team *domain.Team) error {
 	ctx, cancel := context.WithTimeout(c, tu.contextTimeout)
 	defer cancel()
 	return tu.teamRepository.Create(ctx, team)
+}
+
+func (tu *teamUsecase) Fetch(c context.Context, teamID primitive.ObjectID) (*domain.Team, error) {
+	ctx, cancel := context.WithTimeout(c, tu.contextTimeout)
+	defer cancel()
+	return tu.teamRepository.Fetch(ctx, teamID)
 }
