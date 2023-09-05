@@ -18,21 +18,33 @@ func Setup(
 	gin *gin.Engine,
 ) {
 	publicRouter := gin.Group("")
-	// All Public APIs
-	NewSignupRouter(env, timeout, db, publicRouter)
-	NewLoginRouter(env, timeout, db, publicRouter)
-	NewRefreshTokenRouter(env, timeout, db, publicRouter)
+	setupPublicRoutes(env, timeout, db, publicRouter)
 
 	protectedRouter := gin.Group("")
-	// Middleware to verify AccessToken
-	protectedRouter.Use(middleware.JwtAuthMiddleware(env.AccessTokenSecret))
-	// All Private APIs
-	NewProfileRouter(timeout, db, protectedRouter)
-	NewTaskRouter(timeout, db, protectedRouter)
-	NewDocumentRouter(timeout, store, protectedRouter)
-	NewTeamCreationRouter(env, timeout, db, protectedRouter)
+	setupProtectedRoutes(env, timeout, db, store, protectedRouter)
 
 	protectedTeamAdminRouter := protectedRouter.Group("")
-	protectedTeamAdminRouter.Use(middleware.TeamAdminMiddleware(db))
-	NewTeamManagementRouter(env, timeout, db, protectedTeamAdminRouter)
+	setupTeamAdminRoutes(env, timeout, db, protectedTeamAdminRouter)
+}
+
+func setupPublicRoutes(env *bootstrap.Env, timeout time.Duration, db mongo.Database, router *gin.RouterGroup) {
+	// All Public APIs
+	NewSignupRouter(env, timeout, db, router)
+	NewLoginRouter(env, timeout, db, router)
+	NewRefreshTokenRouter(env, timeout, db, router)
+}
+
+func setupProtectedRoutes(env *bootstrap.Env, timeout time.Duration, db mongo.Database, store store.HelpCenterProvider, router *gin.RouterGroup) {
+	// Middleware to verify AccessToken
+	router.Use(middleware.JwtAuthMiddleware(env.AccessTokenSecret))
+	// All Private APIs
+	NewProfileRouter(timeout, db, router)
+	NewTaskRouter(timeout, db, router)
+	NewDocumentRouter(timeout, store, router)
+	NewTeamCreationRouter(env, timeout, db, router)
+}
+
+func setupTeamAdminRoutes(env *bootstrap.Env, timeout time.Duration, db mongo.Database, router *gin.RouterGroup) {
+	router.Use(middleware.TeamAdminMiddleware(db))
+	NewTeamManagementRouter(env, timeout, db, router)
 }

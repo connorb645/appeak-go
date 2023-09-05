@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/connorb645/appeak-go/domain"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type profileUsecase struct {
@@ -19,7 +20,7 @@ func NewProfileUsecase(userRepository domain.UserRepository, timeout time.Durati
 	}
 }
 
-func (pu *profileUsecase) GetProfileByID(c context.Context, userID string) (*domain.Profile, error) {
+func (pu *profileUsecase) GetProfileByID(c context.Context, userID primitive.ObjectID) (*domain.Profile, error) {
 	ctx, cancel := context.WithTimeout(c, pu.contextTimeout)
 	defer cancel()
 

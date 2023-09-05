@@ -5,6 +5,7 @@ import (
 
 	"github.com/connorb645/appeak-go/domain"
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type ProfileController struct {
@@ -12,9 +13,13 @@ type ProfileController struct {
 }
 
 func (pc *ProfileController) Fetch(c *gin.Context) {
-	userID := c.GetString("x-user-id")
-
-	profile, err := pc.ProfileUsecase.GetProfileByID(c, userID)
+	userIDString := c.GetString("x-user-id")
+	id, err := primitive.ObjectIDFromHex(userIDString)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
+		return
+	}
+	profile, err := pc.ProfileUsecase.GetProfileByID(c, id)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, domain.ErrorResponse{Message: err.Error()})
 		return

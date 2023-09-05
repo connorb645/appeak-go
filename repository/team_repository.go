@@ -40,3 +40,21 @@ func (tr *TeamRepository) Fetch(
 	}
 	return &team, nil
 }
+
+func (tr *TeamRepository) Update(
+	c context.Context, 
+	teamID primitive.ObjectID, 
+	team *domain.TeamUpdate,
+) error {
+	collection := tr.Database.Collection(tr.Collection)
+	update := bson.D{{
+		Key: "$set", 
+		Value: team,
+	}}
+	_, err := collection.UpdateOne(
+		c, 
+		bson.M{"_id": teamID}, 
+		update,
+	)
+	return err
+}

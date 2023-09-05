@@ -2,6 +2,8 @@ package domain
 
 import (
 	"context"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 type RefreshTokenRequest struct {
@@ -14,8 +16,8 @@ type RefreshTokenResponse struct {
 }
 
 type RefreshTokenUsecase interface {
-	GetUserByID(c context.Context, id string) (User, error)
+	GetUserByID(c context.Context, id primitive.ObjectID) (User, error)
 	CreateAccessToken(user *User, secret string, expiry int) (accessToken string, err error)
 	CreateRefreshToken(user *User, secret string, expiry int) (refreshToken string, err error)
-	ExtractIDFromToken(requestToken string, secret string) (string, error)
+	ExtractIDFromToken(requestToken string, secret string) (*primitive.ObjectID, error)
 }

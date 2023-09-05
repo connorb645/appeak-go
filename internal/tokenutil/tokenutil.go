@@ -6,6 +6,7 @@ import (
 
 	"github.com/connorb645/appeak-go/domain"
 	jwt "github.com/golang-jwt/jwt/v4"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func CreateAccessToken(user *domain.User, secret string, expiry int) (accessToken string, err error) {
@@ -53,7 +54,7 @@ func IsAuthorized(requestToken string, secret string) (bool, error) {
 	return true, nil
 }
 
-func ExtractIDFromToken(requestToken string, secret string) (string, error) {
+func ExtractIDFromToken(requestToken string, secret string) (*primitive.ObjectID, error) {
 	token, err := jwt.Parse(requestToken, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
@@ -62,14 +63,18 @@ func ExtractIDFromToken(requestToken string, secret string) (string, error) {
 	})
 
 	if err != nil {
-		return "", err
+		return nil, err
 	}
 
 	claims, ok := token.Claims.(jwt.MapClaims)
 
 	if !ok && !token.Valid {
-		return "", fmt.Errorf("Invalid Token")
+		return nil, fmt.Errorf("Invalid Token")
 	}
-
-	return claims["id"].(string), nil
+	idString := claims["id"].(string)
+	id, err := primitive.ObjectIDFromHex(idString)
+	if err != nil {
+		return nil, err
+	}
+	return &id, nil
 }

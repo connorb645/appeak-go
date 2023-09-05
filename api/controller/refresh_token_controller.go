@@ -28,7 +28,7 @@ func (rtc *RefreshTokenController) RefreshToken(c *gin.Context) {
 		return
 	}
 
-	user, err := rtc.RefreshTokenUsecase.GetUserByID(c, id)
+	user, err := rtc.RefreshTokenUsecase.GetUserByID(c, *id)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, domain.ErrorResponse{Message: "User not found"})
 		return

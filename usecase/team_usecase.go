@@ -31,3 +31,13 @@ func (tu *teamUsecase) Fetch(c context.Context, teamID primitive.ObjectID) (*dom
 	defer cancel()
 	return tu.teamRepository.Fetch(ctx, teamID)
 }
+
+func (tu *teamUsecase) Update(
+	c context.Context, 
+	teamID primitive.ObjectID, 
+	team *domain.TeamUpdate,
+) error {
+	ctx, cancel := context.WithTimeout(c, tu.contextTimeout)
+	defer cancel()
+	return tu.teamRepository.Update(ctx, teamID, team)
+}

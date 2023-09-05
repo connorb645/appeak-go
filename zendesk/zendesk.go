@@ -88,7 +88,6 @@ func (z *zendesk) GetDocuments() ([]domain.Document, error) {
 	if err != nil {
 		return nil, err
 	}
-	fmt.Printf("Response: %v", response)
 
 	return response.Articles, nil
 }

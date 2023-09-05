@@ -1,6 +1,10 @@
 package domain
 
-import "context"
+import (
+	"context"
+
+	"go.mongodb.org/mongo-driver/bson/primitive"
+)
 
 type Profile struct {
 	Name  string `json:"name"`
@@ -8,5 +12,5 @@ type Profile struct {
 }
 
 type ProfileUsecase interface {
-	GetProfileByID(c context.Context, userID string) (*Profile, error)
+	GetProfileByID(c context.Context, userID primitive.ObjectID) (*Profile, error)
 }

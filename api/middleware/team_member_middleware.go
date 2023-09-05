@@ -1,7 +1,6 @@
 package middleware
 
 import (
-	"fmt"
 	"net/http"
 
 	"github.com/connorb645/appeak-go/domain"
@@ -29,9 +28,6 @@ func TeamAdminMiddleware(db mongo.Database) gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-
-		fmt.Printf("%v", team)
-		fmt.Println(userID)
 
 		if team.AdminID != userID {
 			c.JSON(http.StatusForbidden, gin.H{"error": "User is not the team admin"})

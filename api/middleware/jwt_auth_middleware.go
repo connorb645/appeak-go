@@ -23,7 +23,7 @@ func JwtAuthMiddleware(secret string) gin.HandlerFunc {
 					c.Abort()
 					return
 				}
-				c.Set("x-user-id", userID)
+				c.Set("x-user-id", userID.Hex())
 				c.Next()
 				return
 			}
